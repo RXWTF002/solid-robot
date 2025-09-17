@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบเช็คชื่อออนไลน์</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            margin-top: 20px;
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ระบบเช็คชื่อ</h1>
+        <form id="attendanceForm" action="/submit-attendance" method="POST">
+            <div class="form-group">
+                <label for="studentId">รหัสนักเรียน/รหัสพนักงาน:</label>
+                <input type="text" id="studentId" name="studentId" required placeholder="กรอกรหัสของคุณ">
+            </div>
+            <div class="form-group">
+                <label for="password">รหัสผ่าน (ถ้ามี):</label>
+                <input type="password" id="password" name="password" placeholder="กรอกรหัสผ่านของคุณ">
+            </div>
+            <button type="submit">เช็คชื่อเข้าเรียน/เข้างาน</button>
+        </form>
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        // ส่วนนี้คือ JavaScript ซึ่งจะช่วยให้หน้าเว็บโต้ตอบได้
+        // แต่ยังไม่สามารถบันทึกข้อมูลได้โดยไม่มี Server-side
+        document.getElementById('attendanceForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // ป้องกันการส่งฟอร์มแบบปกติ
+
+            const studentId = document.getElementById('studentId').value;
+            const password = document.getElementById('password').value;
+            const messageDiv = document.getElementById('message');
+
+            if (studentId === '') {
+                messageDiv.textContent = 'กรุณากรอกรหัสนักเรียน/รหัสพนักงาน';
+                messageDiv.className = 'message error';
+                return;
+            }
+
+            // ในระบบจริง ข้อมูลจะถูกส่งไปยังเซิร์ฟเวอร์เพื่อประมวลผลและบันทึก
+            // ตัวอย่างนี้แสดงการจำลองการตอบกลับ
+            messageDiv.textContent = 'กำลังส่งข้อมูล...';
+            messageDiv.className = 'message';
+
+            // จำลองการส่งข้อมูลไป Server (ในชีวิตจริงต้องใช้ fetch() หรือ XMLHttpRequest)
+            setTimeout(() => {
+                const currentTime = new Date().toLocaleString();
+                messageDiv.textContent = `เช็คชื่อสำเร็จ! รหัส: ${studentId} เวลา: ${currentTime}`;
+                messageDiv.className = 'message';
+                document.getElementById('attendanceForm').reset(); // ล้างฟอร์ม
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
